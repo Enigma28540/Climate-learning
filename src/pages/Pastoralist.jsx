@@ -16,20 +16,32 @@ export default function Pastoralists({ user }) {
   // Localized advice
   const advice = {
     Narok: {
-      text: "Ensure water points are shared fairly and rotate grazing areas.",
-      story: "Narok elders say: 'Grass must rest, as people must — move your herds so the land heals.'",
-      quiz: "What is the best way to prevent overgrazing? (A) Rotate grazing (B) Keep herds in one area (C) Cut all grass early"
+    text: "Move cattle to higher ground to find pasture during heavy rains.",
+    story: "Narok elders say: 'The cow that moves finds grass; the one that waits goes hungry.'",
+    quiz: {
+      question: "What should pastoralists in Narok do when rains are heavy?",
+      options: ["Keep cattle in the homestead", "Move cattle to higher ground", "Sell all cattle immediately"],
+      answer: "Move cattle to higher ground",
     },
-    Turkana: {
-      text: "Use early warning weather info to move herds before drought.",
-      story: "In Turkana, herders follow the stars and clouds to guide livestock migrations.",
-      quiz: "When drought signs appear, what should a pastoralist do first? (A) Move early (B) Wait until grass is gone (C) Sell all animals"
+  },
+  Turkana: {
+    text: "Expect drought. Conserve water and plan migration early.",
+    story: "Turkana wisdom: 'The herd that walks early finds the pasture.'",
+    quiz: {
+      question: "How can Turkana pastoralists prepare for drought?",
+      options: ["Wait until animals are weak", "Conserve water and plan migration early", "Keep animals near riverbanks"],
+      answer: "Conserve water and plan migration early",
     },
-    Kitui: {
-      text: "Adopt fodder crops like Napier grass and store hay.",
-      story: "Farmers in Kitui cut and dry Napier grass, saving cattle during dry spells.",
-      quiz: "Which fodder crop is drought-tolerant in Kitui? (A) Napier (B) Wheat (C) Rice"
-    }
+  },
+  Kitui: {
+    text: "Keep smaller herds and focus on goats, which survive better in drought.",
+    story: "Kitui saying: 'The goat survives where the cow thirsts.'",
+    quiz: {
+      question: "Which livestock is best adapted for Kitui’s drylands?",
+      options: ["Cows", "Goats", "Chickens"],
+      answer: "Goats",
+    },
+  },
   };
 
   const translations = {
@@ -48,15 +60,47 @@ export default function Pastoralists({ user }) {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">🐄 Pastoralist Tips</h2>
-      <p className="mb-4">
-        {translations[language].greeting}<br />
-        {advice[location][learningStyle]}
-      </p>
-      <Link to="/menu" className="text-green-600 underline">
-        {translations[language].back}
-      </Link>
+  <div className="p-6">
+    <h2 className="text-xl font-bold mb-4">🐄 Pastoralist Advice</h2>
+    <p className="mb-4">{translations[language].greeting}</p>
+
+    <div className="mb-4 p-4 border rounded bg-gray-50">
+      {learningStyle === "text" && (
+        <p>📖 {advice[location].text}</p>
+      )}
+
+      {learningStyle === "story" && (
+        <p className="italic">📜 {advice[location].story}</p>
+      )}
+
+      {learningStyle === "quiz" && (
+        <div>
+          <p>🎮 {advice[location].quiz.question}</p>
+          <div className="flex gap-2 mt-2">
+            {advice[location].quiz.options.map((opt, i) => (
+              <button
+                key={i}
+                onClick={() =>
+                  alert(
+                    opt === advice[location].quiz.answer
+                      ? "✅ Correct!"
+                      : "❌ Try again"
+                  )
+                }
+                className="px-3 py-1 bg-green-200 rounded hover:bg-green-400"
+              >
+                {opt}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
-  );
+
+    <Link to="/menu" className="text-green-600 underline">
+      {translations[language].back}
+    </Link>
+  </div>
+);
+
 }
